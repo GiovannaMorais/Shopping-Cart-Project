@@ -53,6 +53,7 @@ function getSkuFromProductItem(item) {
   // coloque seu código aqui
   event.target.remove();
 }
+cartItems.addEventListener('click', cartItemClickListener);
 // Peguei o obj pelo items da função fetchProducts
 // usei o forEach para percorrer todos os produtos 
 // e appendei na section .items todos os produtos que foram 
