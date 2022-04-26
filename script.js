@@ -16,10 +16,8 @@ function createCustomElement(element, className, innerText) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
   event.target.remove();
-  const productCart = cartItems.innerHTML;
-  saveCartItems(productCart);
 }
-// cartItems.addEventListener('click', cartItemClickListener);
+cartItems.addEventListener('click', cartItemClickListener);
 
 // peguei a função createProductItemElement coloquei um addEventListener no botao adicionar ao carinho
 // e chamei a funçao adicionarProduct  onde chamei o obj fetchItem
@@ -78,7 +76,11 @@ const listaProdutos = async (item) => {
     sectionItems.appendChild(createProductItemElement(produto)));
 };
 
+const pagRecarregar = () => {
+ cartItems.innerHTML = getSavedCartItems();
+};
+
 window.onload = () => {
   listaProdutos('computador');
-  cartItems.innerHTML = getSavedCartItems();
+  pagRecarregar();
 };
