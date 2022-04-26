@@ -12,14 +12,16 @@ function createCustomElement(element, className, innerText) {
   return e;
 }
 
-function createProductItemElement({ sku, name, image }) {
+function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
   const section = document.createElement('section');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item__sku', sku));
   section.appendChild(createCustomElement('span', 'item__title', name));
   section.appendChild(createProductImageElement(image));
-  section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
+  section.appendChild(
+    createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'),
+  );
 
   return section;
 }
@@ -29,7 +31,7 @@ function getSkuFromProductItem(item) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui!
+  // coloque seu código aqui
 }
 
 function createCartItemElement({ sku, name, salePrice }) {
@@ -39,5 +41,21 @@ function createCartItemElement({ sku, name, salePrice }) {
   li.addEventListener('click', cartItemClickListener);
   return li;
 }
+// Peguei o obj pelo items da função fetchProducts
+// usei o forEach para percorrer todos os produtos 
+// e appendei na section .items todos os produtos que foram 
+// percorridos pelo forEach
+// chamei a funçao no window.onload com o item que estou procurando
+// que no caso seria o computador
 
-window.onload = () => { };
+const listaProdutos = async (item) => {
+  const items = await fetchProducts(item);
+  // console.log(items);
+  const sectionItems = document.querySelector('.items');
+  items.results.forEach((produto) =>
+    sectionItems.appendChild(createProductItemElement(produto)));
+};
+
+window.onload = () => {
+  listaProdutos('computador');
+};
