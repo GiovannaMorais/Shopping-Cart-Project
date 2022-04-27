@@ -1,4 +1,6 @@
 const cartItems = document.querySelector('.cart__items');
+const total = document.querySelector('.total-price');
+const esvaziar = document.querySelector('.empty-cart');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -77,8 +79,14 @@ const listaProdutos = async (item) => {
 };
 
 const pagRecarregar = () => {
- cartItems.innerHTML = getSavedCartItems();
+  cartItems.innerHTML = getSavedCartItems();
 };
+
+const esvaziarCarrinho = () => {
+ cartItems.innerHTML = '';
+ saveCartItems(cartItems.innerHTML);
+};
+esvaziar.addEventListener('click', esvaziarCarrinho);
 
 window.onload = () => {
   listaProdutos('computador');
