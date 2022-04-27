@@ -59,7 +59,7 @@ function createCustomElement(element, className, innerText) {
 function cartItemClickListener(event) {
   // coloque seu código aqui
 event.target.remove();
-// somarTotal();
+somarTotal();
 // subtrairTotal(event.target);
 }
 cartItems.addEventListener('click', cartItemClickListener);
