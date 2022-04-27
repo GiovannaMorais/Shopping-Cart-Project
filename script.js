@@ -1,6 +1,8 @@
 const cartItems = document.querySelector('.cart__items');
 const total = document.querySelector('.total-price');
 const esvaziar = document.querySelector('.empty-cart');
+// const sectionCart = document.querySelector('.cart');
+const sectionItems = document.querySelector('.items');
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -62,6 +64,16 @@ function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
 function getSkuFromProductItem(item) {
   return item.querySelector('span.item__sku').innerText;
 }
+const loading = () => {
+  const load = document.createElement('span');
+  load.classList = 'loading';
+  load.innerText = 'carregando...';
+  sectionItems.appendChild(load);
+};
+const unloading = () => {
+  const unload = document.querySelector('.loading');
+  sectionItems.removeChild(unload);
+};
 
 // Peguei o obj pelo items da função fetchProducts
 // usei o forEach para percorrer todos os produtos
@@ -71,16 +83,18 @@ function getSkuFromProductItem(item) {
 // que no caso seria o computador
 
 const listaProdutos = async (item) => {
+  loading();
   const items = await fetchProducts(item);
   // console.log(items);
-  const sectionItems = document.querySelector('.items');
+  // const sectionItems = document.querySelector('.items');
   items.results.forEach((produto) =>
     sectionItems.appendChild(createProductItemElement(produto)));
+    unloading();
 };
 
-const pagRecarregar = () => {
-  cartItems.innerHTML = getSavedCartItems();
-};
+// const pagRecarregar = () => {
+//   cartItems.innerHTML = getSavedCartItems();
+// };
 
 const esvaziarCarrinho = () => {
  cartItems.innerHTML = '';
@@ -90,5 +104,5 @@ esvaziar.addEventListener('click', esvaziarCarrinho);
 
 window.onload = () => {
   listaProdutos('computador');
-  pagRecarregar();
+  cartItems.innerHTML = getSavedCartItems();
 };
