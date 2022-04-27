@@ -4,6 +4,44 @@ const esvaziar = document.querySelector('.empty-cart');
 // const sectionCart = document.querySelector('.cart');
 const sectionItems = document.querySelector('.items');
 
+// na funçao somarTotal,primeiro declarei a subtotal iniciando com valor = 0
+// chamei a função getSavedCartItems (que retorna o valor do item em string que está no local storage)
+// usei o split para dividir a string ao chegar no $ ,retornando um array 
+// usei o shift para deletar o primeiro item (que era o nome, o id do item e iria até o price) 
+// pegando somente o numero
+// fiz um forEach para dar um loop em todos os preços do array feito no split
+// somando na variavel subtotal o preço do itemAtual que está no loop
+// utilizei o parseFloat para converte a string em formato de numero em numeros reais
+
+const somarTotal = () => { 
+  let subtotal = 0;
+  const salvar = getSavedCartItems();
+  const teste = salvar.split('$');
+  teste.shift();
+  // console.log(teste.shift());
+  teste.forEach((item) => { 
+    subtotal += parseFloat(item);
+  });
+  // console.log(teste);
+  total.innerHTML = subtotal
+  .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+};
+somarTotal();
+
+// const subtrairTotal = (element) => { 
+//     let subtotal = 0
+//     const salvar = getSavedCartItems();
+//     const teste = salvar.split('$');
+//     teste.shift();
+//     // console.log(teste.shift());
+//     teste.reduce((acc, item) => acc - item, total);
+//     // console.log(teste);
+//     total.innerHTML = subtotal
+//     .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+//   };
+  
+// subtrairTotal();
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -17,11 +55,14 @@ function createCustomElement(element, className, innerText) {
   e.innerText = innerText;
   return e;
 }
+
 function cartItemClickListener(event) {
   // coloque seu código aqui
-  event.target.remove();
+event.target.remove();
+// somarTotal();
+subtrairTotal(event.target);
 }
-cartItems.addEventListener('click', cartItemClickListener);
+cartItems.addEventListener('click', cartItemClickListener, subtrairTotal);
 
 // peguei a função createProductItemElement coloquei um addEventListener no botao adicionar ao carinho
 // e chamei a funçao adicionarProduct  onde chamei o obj fetchItem
@@ -39,7 +80,10 @@ async function adicionarProduct(product) {
   const result = await fetchItem(product);
   cartItems.appendChild(createCartItemElement(result));
   const productCart = cartItems.innerHTML;
+  console.log(productCart);
+
   saveCartItems(productCart);
+  somarTotal();
 }
 
 function createProductItemElement({ id: sku, title: name, thumbnail: image }) {
@@ -97,12 +141,13 @@ const listaProdutos = async (item) => {
 // };
 
 const esvaziarCarrinho = () => {
- cartItems.innerHTML = '';
- saveCartItems(cartItems.innerHTML);
+//  cartItems.innerHTML = '';
+ saveCartItems(cartItems.innerHTML = '');
+ somarTotal();
 };
 esvaziar.addEventListener('click', esvaziarCarrinho);
-
 window.onload = () => {
   listaProdutos('computador');
   cartItems.innerHTML = getSavedCartItems();
+  somarTotal();
 };
