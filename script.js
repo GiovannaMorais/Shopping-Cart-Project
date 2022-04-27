@@ -29,7 +29,7 @@ const somarTotal = () => {
 somarTotal();
 
 // const subtrairTotal = (element) => { 
-//     let subtotal = 0
+//     const subtotal = element - total;
 //     const salvar = getSavedCartItems();
 //     const teste = salvar.split('$');
 //     teste.shift();
@@ -60,9 +60,9 @@ function cartItemClickListener(event) {
   // coloque seu código aqui
 event.target.remove();
 // somarTotal();
-subtrairTotal(event.target);
+// subtrairTotal(event.target);
 }
-cartItems.addEventListener('click', cartItemClickListener, subtrairTotal);
+cartItems.addEventListener('click', cartItemClickListener);
 
 // peguei a função createProductItemElement coloquei um addEventListener no botao adicionar ao carinho
 // e chamei a funçao adicionarProduct  onde chamei o obj fetchItem
