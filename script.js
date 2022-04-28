@@ -15,32 +15,15 @@ const sectionItems = document.querySelector('.items');
 
 const somarTotal = () => { 
   let subtotal = 0;
-  const salvar = getSavedCartItems();
+  const salvar = getSavedCartItems();  
+ 
   const teste = salvar.split('$');
   teste.shift();
-  // console.log(teste.shift());
   teste.forEach((item) => { 
     subtotal += parseFloat(item);
   });
-  // console.log(teste);
-  total.innerHTML = subtotal
-  .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+  total.innerHTML = subtotal;
 };
-somarTotal();
-
-// const subtrairTotal = (element) => { 
-//     const subtotal = element - total;
-//     const salvar = getSavedCartItems();
-//     const teste = salvar.split('$');
-//     teste.shift();
-//     // console.log(teste.shift());
-//     teste.reduce((acc, item) => acc - item, total);
-//     // console.log(teste);
-//     total.innerHTML = subtotal
-//     .toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-//   };
-  
-// subtrairTotal();
 
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
@@ -57,10 +40,12 @@ function createCustomElement(element, className, innerText) {
 }
 
 function cartItemClickListener(event) {
-  // coloque seu código aqui
-event.target.remove();
+  console.log(event.target);
+
+  event.target.remove();
+
+saveCartItems(cartItems.innerHTML);
 somarTotal();
-// subtrairTotal(event.target);
 }
 cartItems.addEventListener('click', cartItemClickListener);
 
@@ -74,14 +59,16 @@ function createCartItemElement({ id: sku, title: name, price: salePrice }) {
   li.className = 'cart__item';
   li.innerText = `SKU: ${sku} | NAME: ${name} | PRICE: $${salePrice}`;
   li.addEventListener('click', cartItemClickListener);
+  
   return li;
 }
 async function adicionarProduct(product) {
   const result = await fetchItem(product);
+  // console.log("result", result);
   cartItems.appendChild(createCartItemElement(result));
   const productCart = cartItems.innerHTML;
-  console.log(productCart);
-
+  // console.log("productCart", productCart);
+  // console.log(productCart);
   saveCartItems(productCart);
   somarTotal();
 }
@@ -136,18 +123,14 @@ const listaProdutos = async (item) => {
     unloading();
 };
 
-// const pagRecarregar = () => {
-//   cartItems.innerHTML = getSavedCartItems();
-// };
-
 const esvaziarCarrinho = () => {
 //  cartItems.innerHTML = '';
  saveCartItems(cartItems.innerHTML = '');
  somarTotal();
 };
 esvaziar.addEventListener('click', esvaziarCarrinho);
-window.onload = () => {
-  listaProdutos('computador');
+window.onload = async () => {
+  await listaProdutos('computador');
   cartItems.innerHTML = getSavedCartItems();
   somarTotal();
 };
